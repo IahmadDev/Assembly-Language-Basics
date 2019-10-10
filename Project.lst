@@ -1,8 +1,8 @@
-Microsoft (R) Macro Assembler Version 14.00.23026.0	    09/18/19 20:56:47
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/10/19 14:23:26
 AddTwo.asm						     Page 1 - 1
 
 
-				INCLUDE irvine32.inc
+				INCLUDE Irvine32.inc
 			      C ; Include file for Irvine32.lib             (Irvine32.inc)
 			      C 
 			      C ;OPTION CASEMAP:NONE		; optional: make identifiers case-sensitive
@@ -22,30 +22,256 @@ AddTwo.asm						     Page 1 - 1
 			      C 
  00000000			.data
 
- 00000000 0000000A		a dword 10
- 00000004 00000007		b dword 7
- 00000008 0000000B		f dword (5+6)
- 0000000C 00000009		e dword 9
-
-
+ 00000000 0001			count WORD 1
+				;signedVal SWORD -16 ; FFF0h (-16)
  00000000			.code
- 00000000			main proc
+ 00000000			main PROC
+ 00000000			.code
+ 00000000  B9 00000000		mov ecx,0
+ 00000005  66| 8B 0D		mov cx,count
+	   00000000 R
 
- 00000000  A1 00000000 R		mov	eax,a				
- 00000005  2B 05 00000004 R		sub eax,b
- 0000000B  F7 25 00000008 R		mul f
- 00000011  F7 25 0000000C R		mul e
-					
- 00000017  E8 00000000 E		call writeint
 
- 0000001C  E8 00000000 E	call readint
-				exit
- 00000021  6A 00	   *	    push   +000000000h
- 00000023  E8 00000000 E   *	    call   ExitProcess
-					
- 00000028			main endp
-				end main
-Microsoft (R) Macro Assembler Version 14.00.23026.0	    09/18/19 20:56:47
+				;mov ecx,0FFFFFFFFh
+				;mov cx,signedVal ; ECX = FFFFFFF0h (-16)
+				;
+				;mov ecx,0
+				;mov cx,signedVal ; ECX = 0000FFF0h (+65,520)
+ 0000000C  E8 00000000 E	call dumpregs
+ 00000011			main ENDP
+				END main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				;INCLUDE Irvine32.inc
+				;.data
+				;array BYTE ?,?,?,?
+				;.code
+				;
+				;main PROC
+				;mov eax,0
+				;call readint
+				;mov array,al
+				;call readint
+				;mov array+1,al
+				;call readint
+				;mov array+2,al
+				;call readint
+				;mov array+3,al
+				;
+				;MUL array+2
+				;MUL array+1
+				;MUL array
+				;
+				;
+				;
+				;
+				;
+				;call WriteInt
+				;call readint
+				;exit
+				;main ENDP
+				;END main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				;INCLUDE Irvine32.inc
+				;.data
+				;data byte 10,20,30,40
+				;.code
+				;.code
+				;main PROC
+				;;First Byte = 10
+				;mov eax, 0
+				;mov al,data
+				;call WriteInt
+				;;Second Byte =20
+				;mov al,data+1
+				;call WriteInt
+				;;Third Byte = 30
+				;mov al,data+2
+				;call WriteInt
+				;;Fourth Byte = 40
+				;mov al,data+3
+				;call WriteInt
+				;call readint
+				;exit
+				;main ENDP
+				;END main
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				;INCLUDE Irvine32.inc
+				;.data
+				;
+				;bestquote BYTE "No Gender Discrimination, but Girls Not Allowed!!!",0
+				;
+				;.code
+				;main PROC
+				;
+				;mov edx,offset bestquote
+				;call WriteString
+				;call readint
+				;
+				;exit
+				;main ENDP
+				;END main
+				;
+				;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				;INCLUDE irvine32.inc
+				;.data
+				;
+				;a dword 0
+				;b dword 0
+				;f dword 0
+				;d dword 0
+				;e dword 0
+				;sum dword 0
+				;mult dword 0
+				;
+				;.code
+				;main proc
+				;
+				;call readint
+				;mov a,eax
+				;call readint
+				;mov b,eax
+				;call readint
+				;mov f,eax
+				;call readint
+				;mov d,eax
+				;
+				;mov ebx,a
+				;add ebx,b
+				;mov sum,ebx
+				;mov eax,f
+				;mul d
+				;mov mult,eax
+				;mov eax,mult
+				;div mult
+				;
+				;call writeint
+				;call readint
+				;
+				;
+				;exit
+				;main endp
+				;end main
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/10/19 14:23:26
 AddTwo.asm						     Symbols 2 - 1
 
 
@@ -139,8 +365,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000010 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000028 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000002 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000011 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -247,7 +473,7 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000028 Public STDCALL
+main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000011 Public STDCALL
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -466,15 +692,12 @@ VK_UP  . . . . . . . . . . . . .	Number	 00000026h
 WINDOW_BUFFER_SIZE_EVENT . . . .	Number	 00000004h   
 WriteConsoleOutputCharacter  . .	Text   	 WriteConsoleOutputCharacterA
 WriteConsole . . . . . . . . . .	Text   	 WriteConsoleA
-a  . . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
-b  . . . . . . . . . . . . . . .	DWord	 00000004 _DATA	
+count  . . . . . . . . . . . . .	Word	 00000000 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
-e  . . . . . . . . . . . . . . .	DWord	 0000000C _DATA	
-f  . . . . . . . . . . . . . . .	DWord	 00000008 _DATA	
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
