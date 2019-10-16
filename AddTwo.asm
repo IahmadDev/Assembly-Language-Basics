@@ -1,24 +1,29 @@
 ;Jump over different lables
 Include Irvine32.inc
+;declaring all the data
 .data
 msg1 byte "Hello",0
 msg2 byte "World",0
 msg3 byte "Exit",0
+
+;code for the main program
 .code
+
 main proc
 mov edx, offset msg1
 call writestring
-jmp M3
+jmp M3   ;jumping to M3
 M2:
 mov edx, offset msg2
 call writestring
-jmp M4
+jmp M4      ;jumping to M4
 M3:
 mov edx, offset msg3
 call writestring
-jmp M2
+jmp M2   ;jumping to M2
 M4:
 call readint
+;ending the main function
 exit
 main endp
 end main
