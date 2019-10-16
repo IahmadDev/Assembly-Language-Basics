@@ -1,26 +1,78 @@
 INCLUDE Irvine32.inc
 .data
 
-count WORD 1
-;signedVal SWORD -16 ; FFF0h (-16)
+a dword 10
+b dword 7
+d dword 5
+e dword 6
+f dword 9
+ans dword ?
 .code
-main PROC
-.code
-mov ecx,0
-mov cx,count
+MAIN PROC
+
+mov eax,a
+sub eax,b
+mov ans,eax
+mov eax,d
+add e,eax
+mov eax,e
+mul f
+mul ans
+ 
 
 
-;mov ecx,0FFFFFFFFh
-;mov cx,signedVal ; ECX = FFFFFFF0h (-16)
-;
-;mov ecx,0
-;mov cx,signedVal ; ECX = 0000FFF0h (+65,520)
-call dumpregs
+
+call writeint
+call readint
+
 main ENDP
 END main
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+;temperature calc
+;INCLUDE Irvine32.inc
+;.data
+;tempc dword 36
+;infar dword ?
+;
+;
+;.code
+;main PROC
+;
+;mov eax,36
+;mov ebx,2
+;mul ebx
+;mov ebx,eax
+;add eax,32
+;
+;
+;
+;
+;call writeint
+;call readint
+;
+;
+;
+;
+;main ENDP
+;END main
 
 
 

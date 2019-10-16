@@ -1,4 +1,4 @@
-Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/10/19 14:23:26
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/16/19 13:21:56
 AddTwo.asm						     Page 1 - 1
 
 
@@ -22,27 +22,78 @@ AddTwo.asm						     Page 1 - 1
 			      C 
  00000000			.data
 
- 00000000 0001			count WORD 1
-				;signedVal SWORD -16 ; FFF0h (-16)
+ 00000000 0000000A		a dword 10
+ 00000004 00000007		b dword 7
+ 00000008 00000005		d dword 5
+ 0000000C 00000006		e dword 6
+ 00000010 00000009		f dword 9
+ 00000014 00000000		ans dword ?
  00000000			.code
- 00000000			main PROC
- 00000000			.code
- 00000000  B9 00000000		mov ecx,0
- 00000005  66| 8B 0D		mov cx,count
-	   00000000 R
+ 00000000			MAIN PROC
+
+ 00000000  A1 00000000 R	mov eax,a
+ 00000005  2B 05 00000004 R	sub eax,b
+ 0000000B  A3 00000014 R	mov ans,eax
+ 00000010  A1 00000008 R	mov eax,d
+ 00000015  01 05 0000000C R	add e,eax
+ 0000001B  A1 0000000C R	mov eax,e
+ 00000020  F7 25 00000010 R	mul f
+ 00000026  F7 25 00000014 R	mul ans
+				 
 
 
-				;mov ecx,0FFFFFFFFh
-				;mov cx,signedVal ; ECX = FFFFFFF0h (-16)
-				;
-				;mov ecx,0
-				;mov cx,signedVal ; ECX = 0000FFF0h (+65,520)
- 0000000C  E8 00000000 E	call dumpregs
- 00000011			main ENDP
+
+ 0000002C  E8 00000000 E	call writeint
+ 00000031  E8 00000000 E	call readint
+
+ 00000036			main ENDP
 				END main
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				;temperature calc
+				;INCLUDE Irvine32.inc
+				;.data
+				;tempc dword 36
+				;infar dword ?
+				;
+				;
+				;.code
+				;main PROC
+				;
+				;mov eax,36
+				;mov ebx,2
+				;mul ebx
+				;mov ebx,eax
+				;add eax,32
+				;
+				;
+				;
+				;
+				;call writeint
+				;call readint
+				;
+				;
+				;
+				;
+				;main ENDP
+				;END main
 
 
 
@@ -271,7 +322,7 @@ AddTwo.asm						     Page 1 - 1
 				;exit
 				;main endp
 				;end main
-Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/10/19 14:23:26
+Microsoft (R) Macro Assembler Version 14.23.28106.4	    10/16/19 13:21:56
 AddTwo.asm						     Symbols 2 - 1
 
 
@@ -365,8 +416,8 @@ Segments and Groups:
 
 FLAT . . . . . . . . . . . . . .	GROUP
 STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
-_DATA  . . . . . . . . . . . . .	32 Bit	 00000002 Para	  Public  'DATA'	
-_TEXT  . . . . . . . . . . . . .	32 Bit	 00000011 Para	  Public  'CODE'	
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000018 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000036 Para	  Public  'CODE'	
 
 
 Procedures, parameters, and locals:
@@ -414,6 +465,7 @@ HeapFree . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 HeapSize . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 IsDigit  . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 LocalFree  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+MAIN . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000036 Public STDCALL
 MessageBoxA  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 MsgBoxAsk  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 MsgBox . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
@@ -473,7 +525,6 @@ WriteStackFrame  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External
 WriteString  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteToFile  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
 WriteWindowsMsg  . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
-main . . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000011 Public STDCALL
 printf . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 scanf  . . . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
 wsprintfA  . . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External C
@@ -692,12 +743,17 @@ VK_UP  . . . . . . . . . . . . .	Number	 00000026h
 WINDOW_BUFFER_SIZE_EVENT . . . .	Number	 00000004h   
 WriteConsoleOutputCharacter  . .	Text   	 WriteConsoleOutputCharacterA
 WriteConsole . . . . . . . . . .	Text   	 WriteConsoleA
+ans  . . . . . . . . . . . . . .	DWord	 00000014 _DATA	
+a  . . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
 black  . . . . . . . . . . . . .	Number	 00000000h   
 blue . . . . . . . . . . . . . .	Number	 00000001h   
 brown  . . . . . . . . . . . . .	Number	 00000006h   
-count  . . . . . . . . . . . . .	Word	 00000000 _DATA	
+b  . . . . . . . . . . . . . . .	DWord	 00000004 _DATA	
 cyan . . . . . . . . . . . . . .	Number	 00000003h   
+d  . . . . . . . . . . . . . . .	DWord	 00000008 _DATA	
 exit . . . . . . . . . . . . . .	Text   	 INVOKE ExitProcess,0
+e  . . . . . . . . . . . . . . .	DWord	 0000000C _DATA	
+f  . . . . . . . . . . . . . . .	DWord	 00000010 _DATA	
 gray . . . . . . . . . . . . . .	Number	 00000008h   
 green  . . . . . . . . . . . . .	Number	 00000002h   
 lightBlue  . . . . . . . . . . .	Number	 00000009h   
